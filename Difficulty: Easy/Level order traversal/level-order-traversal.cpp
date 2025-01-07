@@ -29,7 +29,7 @@ struct Node
     int data;
     struct Node* left;
     struct Node* right;
-    
+
     Node(int x){
         data = x;
         left = right = NULL;
@@ -37,33 +37,32 @@ struct Node
 };
  */
 
-
-class Solution
-{
-    public:
-    //Function to return the level order traversal of a tree.
-    vector<int> levelOrder(Node* root)
-    {   vector<int>ans;
-        queue<Node*> level;
-        level.push(root);
-        while(!level.empty())
+class Solution {
+  public:
+    // Function to return the level order traversal of a tree.
+    vector<vector<int>> levelOrder(Node *node) {
+        queue<Node*> q;
+        vector<vector<int>> ans;
+        q.push(node);
+        while(!q.empty())
         {
-            Node* curr=level.front();
-            level.pop();
-            ans.push_back(curr->data);
-            if(curr->left!=NULL)
+            int size=q.size();
+            vector<int>temp;
+            for(int i=0;i<size;i++)
             {
-                level.push(curr->left);
+                Node* curr=q.front();
+                q.pop();
+                temp.push_back(curr->data);
+                if(curr->left!=NULL)
+                    q.push(curr->left);
+                if(curr->right!=NULL)
+                    q.push(curr->right);
             }
-            if(curr->right!=NULL)
-            {
-                level.push(curr->right);
-            }
+            ans.push_back(temp);
         }
         return ans;
     }
 };
-
 
 //{ Driver Code Starts.
 
@@ -152,13 +151,13 @@ int main() {
         getline(cin, s);
         Node* root = buildTree(s);
         Solution ob;
-        vector<int> res = ob.levelOrder(root);
-        for (int i : res)
-            cout << i << " ";
+        vector<vector<int>> res = ob.levelOrder(root);
+        for (auto level : res) {
+            for (int ele : level)
+                cout << ele << " ";
+        }
         cout << endl;
-
-        cout << "~"
-             << "\n";
+        cout << "~" << endl;
     }
     return 0;
 }

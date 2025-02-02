@@ -4,63 +4,65 @@ using namespace std;
 
 /* A binary tree node has data, pointer to left child
    and a pointer to right child */
-struct Node {
+class Node {
+  public:
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
+
+    // Constructor
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
 // Utility function to create a new Tree Node
 Node* newNode(int val) {
-    Node* temp = new Node;
-    temp->data = val;
-    temp->left = NULL;
-    temp->right = NULL;
-
-    return temp;
+    return new Node(val);
 }
 
 
 // } Driver Code Ends
 /* A binary tree Node
-
-struct Node
-{
+class Node {
+  public:
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 
-    Node(int x){
-        data = x;
-        left = right = NULL;
+    // Constructor
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
     }
 };
- */
+*/
 
 class Solution {
   public:
-    // Function to return the level order traversal of a tree.
-    vector<vector<int>> levelOrder(Node *node) {
-        queue<Node*> q;
-        vector<vector<int>> ans;
-        q.push(node);
-        while(!q.empty())
+    vector<vector<int>> levelOrder(Node *root) {
+      queue<Node*> q;
+      vector<vector<int>> ans;
+      q.push(root);
+      
+      while(!q.empty())
+      {
+        int size=q.size();
+        vector<int> temp;
+        for(int i=0;i<size;i++)
         {
-            int size=q.size();
-            vector<int>temp;
-            for(int i=0;i<size;i++)
-            {
-                Node* curr=q.front();
-                q.pop();
-                temp.push_back(curr->data);
-                if(curr->left!=NULL)
-                    q.push(curr->left);
-                if(curr->right!=NULL)
-                    q.push(curr->right);
-            }
-            ans.push_back(temp);
+            Node* curr=q.front();
+            q.pop();
+            temp.push_back(curr->data);
+            if(curr->left) q.push(curr->left);
+            if(curr->right) q.push(curr->right);
         }
-        return ans;
+        ans.push_back(temp);
+      }
+      return ans;
     }
 };
 
@@ -69,8 +71,8 @@ class Solution {
 /* Helper function to test mirror(). Given a binary
    search tree, print out its data elements in
    increasing sorted order.*/
-void inOrder(struct Node* node) {
-    if (node == NULL)
+void inOrder(Node* node) {
+    if (node == nullptr)
         return;
 
     inOrder(node->left);
@@ -83,7 +85,7 @@ void inOrder(struct Node* node) {
 Node* buildTree(string str) {
     // Corner Case
     if (str.length() == 0 || str[0] == 'N')
-        return NULL;
+        return nullptr;
 
     // Creating vector of strings from input
     // string after spliting by space

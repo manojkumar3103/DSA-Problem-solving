@@ -4,18 +4,21 @@ using namespace std;
 
 /* A binary tree node has data, pointer to left child
    and a pointer to right child */
-struct Node {
+class Node {
+  public:
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
 };
 
 Node* newNode(int val) {
-    Node* temp = new Node;
-    temp->data = val;
-    temp->left = NULL;
-    temp->right = NULL;
-    return temp;
+    return new Node(val);
 }
 
 Node* buildTree(string str) {
@@ -82,47 +85,45 @@ Node* buildTree(string str) {
 
 
 // } Driver Code Ends
-/* Tree node structure  used in the program
-
-struct Node
-{
+/*
+class Node {
+public:
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 
-    Node(int x){
-        data = x;
-        left = right = NULL;
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
     }
-}; */
+};
+
+Node* newNode(int val) {
+    return new Node(val);
+}
+*/
 
 class Solution {
   public:
-    // Function to return the diameter of a Binary Tree.
-    int height(Node* root)
+    int diameterUtil(Node* root,int& ans)
     {
-        if(root==NULL)
-            return 0;
-        
-        return 1+max(height(root->left),height(root->right));
+        if(!root) return 0;
+        int lf=diameterUtil(root->left,ans);
+        int rf=diameterUtil(root->right,ans);
+        ans=max(ans,1+lf+rf);
+        return 1+ max(lf,rf);
     }
     int diameter(Node* root) {
-        if(root==NULL)
-            return 0;
-        
-        int lh = height(root->left);
-        int rh=height(root->right);
-        int root_diameter=lh+rh;
-        int left_diameter=diameter(root->left);
-        int right_diameter=diameter(root->right);
-        
-        return max(root_diameter,max(left_diameter,right_diameter));
+        int ans=INT_MIN;
+        diameterUtil(root,ans);
+        return ans-1;
     }
 };
 
 //{ Driver Code Starts.
 
-/* Driver program to test size function*/
+/* Driver program to test size function */
 int main() {
     int t;
     scanf("%d\n", &t);

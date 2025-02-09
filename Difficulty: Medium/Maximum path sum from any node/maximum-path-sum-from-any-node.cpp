@@ -3,7 +3,8 @@
 using namespace std;
 
 // Tree Node
-struct Node {
+class Node {
+  public:
     int data;
     Node *left;
     Node *right;
@@ -21,7 +22,7 @@ Node *buildTree(string str) {
         return NULL;
 
     // Creating vector of strings from input
-    // string after spliting by space
+    // string after splitting by space
     vector<string> ip;
 
     istringstream iss(str);
@@ -80,35 +81,39 @@ Node *buildTree(string str) {
 
 // } Driver Code Ends
 // User Fuction template for C++
+/*
+// Tree Node
+class Node {
+public:
+    int data;
+    Node *left;
+    Node *right;
 
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
 class Solution {
   public:
-    //Function to return maximum path sum from any node in a tree.
-    int findMaxSumUtil(Node* root,int& global_result)
+    // Function to return maximum path sum from any node in a tree.
+    int findMaxSumUtil(Node* root,int& ans)
     {
-        if(root==NULL) return 0;
-        
-        int leftsum=max(findMaxSumUtil(root->left,global_result),0);
-        int rightsum=max(findMaxSumUtil(root->right,global_result),0);
-        
-        int curr=root->data+leftsum+rightsum;
-        
-        global_result=max(global_result,curr);
-        
-        return root->data + max(leftsum,rightsum);
+        if(!root) return 0;
+        int lh=max(findMaxSumUtil(root->left,ans),0);
+        int rh=max(findMaxSumUtil(root->right,ans),0);
+        ans=max(ans,root->data+lh+rh);
+        return (root->data+max(lh,rh));
     }
-    
-    int findMaxSum(Node* root)
-    {
-       if(root==NULL) return 0;
-       int global_result=INT_MIN;
-       findMaxSumUtil(root,global_result);
-       return global_result;
+    int findMaxSum(Node *root) {
+        int ans=INT_MIN;
+        findMaxSumUtil(root,ans);
+        return ans;
     }
 };
 
 //{ Driver Code Starts.
-
 
 int main() {
     int tc;
@@ -120,11 +125,11 @@ int main() {
         Node *root = buildTree(treeString);
         cout << ob.findMaxSum(root) << "\n";
 
-    
-cout << "~" << "\n";
-}
-
+        cout << "~"
+             << "\n";
+    }
 
     return 0;
 }
+
 // } Driver Code Ends

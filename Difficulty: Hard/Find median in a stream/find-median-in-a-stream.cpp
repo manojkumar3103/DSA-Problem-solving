@@ -3,70 +3,78 @@
 using namespace std;
 
 
-
 // } Driver Code Ends
-class Solution
-{
-    public:
-    //Function to insert heap.
-    priority_queue<int> g;
-    priority_queue<int,vector<int>,greater<int>> smaller;
-    void insertHeap(int &x)
+class Solution {
+  public:
+    void balance(priority_queue<int> &max_heap, priority_queue<int,vector<int>,greater<int>> &min_heap)
     {
-        if(g.empty() || x<g.top())
+        if(max_heap.size()>min_heap.size()+1)
         {
-            g.push(x);
+            int top=max_heap.top();
+            max_heap.pop();
+            min_heap.push(top);
+        }
+        else if (min_heap.size()>max_heap.size())
+        {
+            int top=min_heap.top();
+            min_heap.pop();
+            max_heap.push(top);
+        }
+    }
+    vector<double> getMedian(vector<int> &arr) {
+        vector<double> ans;
+        priority_queue<int> max_heap;
+        priority_queue<int,vector<int>,greater<int>> min_heap;
+        max_heap.push(arr[0]);
+        ans.push_back(double(arr[0]));
+        for(int i=1;i<arr.size();i++)
+        {
+            if(max_heap.empty() || max_heap.top()>arr[i])
+            {
+                max_heap.push(arr[i]);
+            }
+            else
+            {
+                min_heap.push(arr[i]);
+            }
+        balance(max_heap,min_heap);
+        if(i%2==1)
+        {
+            ans.push_back((max_heap.top()+min_heap.top())/2.0);
         }
         else
         {
-            smaller.push(x);
+            ans.push_back(max_heap.top()/1.0);
         }
-        balanceHeap();
-    }
-    void balanceHeap()
-    {
-        if(g.size()>smaller.size()+1)
-        {
-            smaller.push(g.top());
-            g.pop();
         }
-        if(g.size()<smaller.size())
-        {
-            g.push(smaller.top());
-            smaller.pop();
-        }
-    }
-    //Function to return Median.
-    double getMedian()
-    {
-        if(g.size()>smaller.size())
-         return g.top();
-         else
-         return (g.top()+smaller.top())/2.0;
+        return ans;
     }
 };
 
 
 //{ Driver Code Starts.
-
-int main()
-{
-    int n, x;
+int main() {
     int t;
-    cin>>t;
-    while(t--)
-    {
-    	Solution ob;
-    	cin >> n;
-    	for(int i = 1;i<= n; ++i)
-    	{
-    		cin >> x;
-    		ob.insertHeap(x);
-    	    cout << floor(ob.getMedian()) << endl;
-    	}
-    
-cout << "~" << "\n";
-}
-	return 0;
+    cin >> t;
+    cin.ignore();
+    while (t--) {
+
+        string s;
+        getline(cin, s);
+        stringstream ss(s);
+        vector<int> nums;
+        int num;
+        while (ss >> num) {
+            nums.push_back(num);
+        }
+        Solution ob;
+        vector<double> ans = ob.getMedian(nums);
+        cout << fixed << setprecision(1);
+        for (auto &i : ans)
+            cout << i << " ";
+        cout << "\n";
+        cout << "~" << endl;
+    }
+    return 0;
 }
 // } Driver Code Ends

@@ -81,6 +81,7 @@ Node *buildTree(string str) {
 
 // } Driver Code Ends
 
+
 // User Function template for C++
 
 // Structure of node
@@ -131,6 +132,8 @@ class Solution {
         return isComplete(tree,0,totalnodes) && hasHeapProperty(tree);
     }
 };
+
+
 
 
 //{ Driver Code Starts.

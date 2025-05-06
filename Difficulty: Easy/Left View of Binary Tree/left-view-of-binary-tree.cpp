@@ -11,6 +11,7 @@ struct Node {
 
 
 // } Driver Code Ends
+
 /* A binary tree node
 
 struct Node
@@ -29,29 +30,28 @@ struct Node
 class Solution {
   public:
     vector<int> leftView(Node *root) {
-       queue<Node*> q;
-       q.push(root);
-       vector<int> ans;
-       if(root==NULL)
+        // code here
+        if(!root) return {};
+        vector<int> ans;
+        queue<Node*> q;
+        q.push(root);
+        
+        while(!q.empty())
+        {
+            int size=q.size();
+            for(int i=0;i<size;i++)
+            {
+                Node* temp=q.front();
+                q.pop();
+                if(i==0)
+                {
+                    ans.push_back(temp->data);
+                }
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
+            }
+        }
         return ans;
-       while(!q.empty())
-       {
-           int size=q.size();
-           for(int i=0;i<size;i++)
-           {
-               Node* curr=q.front();
-               q.pop();
-               if(i==0)
-               {
-                   ans.push_back(curr->data);
-               }
-               if(curr->left!=NULL)
-                q.push(curr->left);
-                if(curr->right!=NULL)
-                q.push(curr->right);
-           }
-       }
-       return ans;
     }
 };
 

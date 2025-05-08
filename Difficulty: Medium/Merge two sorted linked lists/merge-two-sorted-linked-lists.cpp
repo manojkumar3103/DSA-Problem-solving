@@ -39,6 +39,7 @@ Node *insertSorted(Node *head, int data) {
 
 
 // } Driver Code Ends
+
 /* Link list Node
 struct Node {
   int data;
@@ -53,48 +54,43 @@ struct Node {
 class Solution {
   public:
     Node* sortedMerge(Node* head1, Node* head2) {
+        // code here
         if(!head1) return head2;
         if(!head2) return head1;
         
-        Node * first_start=head1;
-        Node * second_start=head2;
-        Node * new_head=NULL;
-        if(first_start->data<second_start->data)
+        Node* result;
+        if(head1->data < head2->data)
         {
-            new_head=first_start;
-            first_start=first_start->next;
+            result= new Node(head1->data);
+            head1=head1->next;
         }
         else
         {
-            new_head=second_start;
-            second_start=second_start->next;
+            result= new Node(head2->data);
+            head2=head2->next;
         }
-        
-        Node* head=new_head;
-        while(first_start && second_start)
+        Node * ans=result;
+        while(head1 && head2)
         {
-            if(first_start->data<second_start->data)
+            if(head1->data < head2->data)
             {
-                head->next=first_start;
-
-                first_start=first_start->next;
+                result->next=new Node(head1->data);
+                head1=head1->next;
             }
             else
             {
-                head->next=second_start;
-                second_start=second_start->next;
+                result->next=new Node(head2->data);
+                head2=head2->next;
             }
-            head=head->next;
+            result=result->next;
         }
+        if(head1) result->next=head1;
+        if(head2) result->next=head2;
         
-        if(first_start)
-            head->next=first_start;
-        if(second_start)
-            head->next=second_start;
-            
-        return new_head;
+        return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 

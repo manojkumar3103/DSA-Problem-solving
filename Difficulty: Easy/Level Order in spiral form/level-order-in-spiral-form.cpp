@@ -3,20 +3,21 @@
 using namespace std;
 
 // Tree Node
-struct Node {
+class Node {
+  public:
     int data;
     Node* left;
     Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
 };
 
 // Utility function to create a new Tree Node
 Node* newNode(int val) {
-    Node* temp = new Node;
-    temp->data = val;
-    temp->left = NULL;
-    temp->right = NULL;
-
-    return temp;
+    return new Node(val);
 }
 
 // Function to Build Tree
@@ -79,31 +80,32 @@ Node* buildTree(string str) {
 
 
 // } Driver Code Ends
+
 /* A binary tree node has data, pointer to left child
    and a pointer to right child
-struct Node
+class Node
 {
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 
     Node(int x){
         data = x;
         left = right = NULL;
     }
 }; */
-
-// Function to return a list containing the level order traversal in spiral form.
 class Solution {
   public:
     vector<int> findSpiral(Node* root) {
-       vector<int> ans;
-       stack<Node*> s1;
-       stack<Node*> s2;
-       s1.push(root);
-       while(!s1.empty() || !s2.empty())
-       {
-           while(!s1.empty())
+        // code here
+        stack<Node*> s1;
+        stack<Node*>s2;
+        s1.push(root);
+        vector<int> ans;
+        
+        while(!s1.empty() || !s2.empty())
+        {
+            while(!s1.empty())
            {
                Node* curr=s1.top();
                s1.pop();
@@ -112,20 +114,21 @@ class Solution {
                if(curr->right!=NULL) s2.push(curr->right);
                if(curr->left!=NULL) s2.push(curr->left);
            }
+           
            while(!s2.empty())
            {
                Node* curr=s2.top();
                s2.pop();
                ans.push_back(curr->data);
-               
                if(curr->left!=NULL) s1.push(curr->left);
                if(curr->right!=NULL) s1.push(curr->right);
            }
-       }
-       
-       return ans;
+        }
+        
+        return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 

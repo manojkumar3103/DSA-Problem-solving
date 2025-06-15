@@ -20,7 +20,7 @@ class Solution {
         return (left->data == right->data && isMirror(left->left,right->right) && isMirror(left->right,right->left));
     }
     bool isSymmetric(Node* root) {
-        // Code here
+        
         if(!root) return true;
         
         return isMirror(root->left, root->right);

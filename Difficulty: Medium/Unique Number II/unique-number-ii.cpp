@@ -13,7 +13,7 @@ class Solution {
         xor_all ^= num;
     }
 
-    // Find rightmost set bit in xor_all
+    // Find rightmost set bit in xor_all 
     int set_bit = xor_all & -xor_all;
 
     int num1 = 0, num2 = 0;
